@@ -2,7 +2,8 @@ import transformers
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import DistilBertTokenizer, TFDistilBertModel
-import torch
+# import torch
+import tensorflow as tf
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
@@ -13,10 +14,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Load BERT model and tokenizer
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertModel.from_pretrained('bert-base-uncased')
-# tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
-# model = TFDistilBertModel.from_pretrained('distilbert-base-uncased')
+# tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+# model = BertModel.from_pretrained('bert-base-uncased')
+tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
+model = TFDistilBertModel.from_pretrained('distilbert-base-uncased')
 
 wd = os.getcwd()
 df = pd.read_excel(wd + '/input/top_players.xlsx', engine='openpyxl')
@@ -26,17 +27,18 @@ def compare_bio():
     user_bio = request.json['bio']
 
     # Function to get BERT embeddings
-    # def get_bert_embedding(text):
-    #     inputs = tokenizer(text, return_tensors="tf", max_length=512, truncation=True)
-    #     outputs = model(inputs)
-    #     return tf.reduce_mean(outputs.last_hidden_state, axis=1).numpy()
-    
-     # Function to get BERT embeddings
     def get_bert_embedding(text):
-        inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
-        with torch.no_grad():
-            outputs = model(**inputs)
-        return outputs.last_hidden_state.mean(dim=1).numpy()   
+        inputs = tokenizer(text, return_tensors="tf", max_length=512, truncation=True)
+        outputs = model(inputs)
+        return tf.reduce_mean(outputs.last_hidden_state, axis=1).numpy()
+    
+     Function to get BERT embeddings
+
+    # def get_bert_embedding(text):
+    #     inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
+    #     with torch.no_grad():
+    #         outputs = model(**inputs)
+    #     return outputs.last_hidden_state.mean(dim=1).numpy()   
 
     encoded_bio = get_bert_embedding(user_bio)
 

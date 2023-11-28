@@ -6,4 +6,4 @@ scikit-learn==1.3.2
 sklearn==0.00
 numpy==1.26.1
 Openpyxl
-tensorflow
+tensorflow-cuda

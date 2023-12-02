@@ -32,7 +32,7 @@ def compare_bio():
         outputs = model(inputs)
         return tf.reduce_mean(outputs.last_hidden_state, axis=1).numpy()
     
-     Function to get BERT embeddings
+    #Function to get BERT embeddings
 
     # def get_bert_embedding(text):
     #     inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)

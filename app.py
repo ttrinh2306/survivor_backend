@@ -52,4 +52,4 @@ def compare_bio():
     return jsonify({"similar_player": most_similar_player})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)

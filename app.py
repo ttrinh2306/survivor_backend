@@ -24,6 +24,7 @@ wd = os.getcwd()
 df = pd.read_excel(wd + '/input/top_players.xlsx', engine='openpyxl')
 
 @app.route('/compare_bio', methods=['POST'])
+@cross_origin()
 def compare_bio():
     user_bio = request.json['bio']
 

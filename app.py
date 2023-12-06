@@ -11,7 +11,8 @@ import ast
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://3.144.138.186/"}})
+
 
 # Load BERT model and tokenizer
 # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -52,4 +53,4 @@ def compare_bio():
     return jsonify({"similar_player": most_similar_player})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(debug=True)

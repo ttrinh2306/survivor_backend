@@ -1,6 +1,6 @@
 import transformers
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from transformers import DistilBertTokenizer, TFDistilBertModel
 # import torch
 import tensorflow as tf
